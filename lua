@@ -138,7 +138,7 @@ local Credits = Instance.new("TextLabel")
 Credits.Size = UDim2.new(1,0,0,18)
 Credits.Position = UDim2.new(0,0,0,166)
 Credits.BackgroundTransparency = 1
-Credits.Text = "Made by Mark L."
+Credits.Text = "Made by Mochii Scripts"
 Credits.TextColor3 = Color3.fromRGB(255,255,255)
 Credits.Font = Enum.Font.Gotham
 Credits.TextSize = 12
@@ -146,12 +146,124 @@ Credits.TextXAlignment = Enum.TextXAlignment.Center
 Credits.Parent = MainFrame
 
 -------------------------------------------------
+-- Notification Popup
+-------------------------------------------------
+
+local Notification = Instance.new("Frame")
+Notification.Size = UDim2.new(0, 240, 0, 50)
+Notification.Position = UDim2.new(0.5, -120, 0, -70) -- nakatago sa taas
+Notification.BackgroundColor3 = Color3.fromRGB(20, 20, 22)
+Notification.BorderSizePixel = 0
+Notification.Visible = false
+Notification.ZIndex = 10
+Notification.Parent = ScreenGui
+
+local NotifCorner = Instance.new("UICorner")
+NotifCorner.CornerRadius = UDim.new(0,10)
+NotifCorner.Parent = Notification
+
+local NotifStripe = Instance.new("Frame")
+NotifStripe.Size = UDim2.new(1,0,0,4)
+NotifStripe.BackgroundColor3 = Color3.fromRGB(0,200,0)
+NotifStripe.BorderSizePixel = 0
+NotifStripe.ZIndex = 11
+NotifStripe.Parent = Notification
+
+local NotifStripeCorner = Instance.new("UICorner")
+NotifStripeCorner.CornerRadius = UDim.new(0,10)
+NotifStripeCorner.Parent = NotifStripe
+
+local NotifText = Instance.new("TextLabel")
+NotifText.Size = UDim2.new(1,-16,1,-8)
+NotifText.Position = UDim2.new(0,8,0,8)
+NotifText.BackgroundTransparency = 1
+NotifText.Text = "✅ Success Bypassing Script"
+NotifText.TextColor3 = Color3.fromRGB(255,255,255)
+NotifText.Font = Enum.Font.GothamBold
+NotifText.TextSize = 13
+NotifText.TextXAlignment = Enum.TextXAlignment.Center
+NotifText.TextWrapped = true
+NotifText.ZIndex = 11
+NotifText.Parent = Notification
+
+local function ShowNotification()
+	Notification.Position = UDim2.new(0.5, -120, 0, -70)
+	Notification.Visible = true
+	Notification:TweenPosition(UDim2.new(0.5, -120, 0, 20), "Out", "Quad", 0.25, true)
+
+	task.delay(2.5, function()
+		Notification:TweenPosition(UDim2.new(0.5, -120, 0, -70), "Out", "Quad", 0.25, true, function()
+			Notification.Visible = false
+		end)
+	end)
+end
+
+-------------------------------------------------
+-- Warning Notification (Top, Centered)
+-------------------------------------------------
+
+local WarningNotif = Instance.new("Frame")
+WarningNotif.Size = UDim2.new(0, 240, 0, 44)
+WarningNotif.Position = UDim2.new(0.5, -120, 0, -60) -- nakatago sa taas
+WarningNotif.BackgroundColor3 = Color3.fromRGB(20, 20, 22)
+WarningNotif.BorderSizePixel = 0
+WarningNotif.Visible = false
+WarningNotif.ZIndex = 10
+WarningNotif.Parent = ScreenGui
+
+local WarningCorner = Instance.new("UICorner")
+WarningCorner.CornerRadius = UDim.new(0,10)
+WarningCorner.Parent = WarningNotif
+
+local WarningStripe = Instance.new("Frame")
+WarningStripe.Size = UDim2.new(1,0,0,4)
+WarningStripe.BackgroundColor3 = Color3.fromRGB(255, 60, 60)
+WarningStripe.BorderSizePixel = 0
+WarningStripe.ZIndex = 11
+WarningStripe.Parent = WarningNotif
+
+local WarningStripeCorner = Instance.new("UICorner")
+WarningStripeCorner.CornerRadius = UDim.new(0,10)
+WarningStripeCorner.Parent = WarningStripe
+
+local WarningText = Instance.new("TextLabel")
+WarningText.Size = UDim2.new(1,-16,1,-8)
+WarningText.Position = UDim2.new(0,8,0,8)
+WarningText.BackgroundTransparency = 1
+WarningText.Text = "⚠️ First On Bypass Script"
+WarningText.TextColor3 = Color3.fromRGB(255,255,255)
+WarningText.Font = Enum.Font.GothamBold
+WarningText.TextSize = 13
+WarningText.TextXAlignment = Enum.TextXAlignment.Center
+WarningText.TextWrapped = true
+WarningText.ZIndex = 11
+WarningText.Parent = WarningNotif
+
+local function ShowWarning()
+	WarningNotif.Position = UDim2.new(0.5, -120, 0, -60)
+	WarningNotif.Visible = true
+	WarningNotif:TweenPosition(UDim2.new(0.5, -120, 0, 80), "Out", "Quad", 0.25, true)
+
+	task.delay(2, function()
+		WarningNotif:TweenPosition(UDim2.new(0.5, -120, 0, -60), "Out", "Quad", 0.25, true, function()
+			WarningNotif.Visible = false
+		end)
+	end)
+end
+
+-------------------------------------------------
 -- Egg Toggle
 -------------------------------------------------
 
 local EggOn = false
+local BypassOn = false
 
 EggToggle.MouseButton1Click:Connect(function()
+	if not BypassOn then
+		ShowWarning()
+		return -- naka-lock, kailangan i-on muna ang Bypass Script
+	end
+
 	EggOn = not EggOn
 
 	if EggOn then
@@ -169,7 +281,7 @@ end)
 -- Bypass Toggle
 -------------------------------------------------
 
-local BypassOn = false
+-- BypassOn variable declared above (shared with Egg Toggle lock)
 
 BypassToggle.MouseButton1Click:Connect(function()
 	BypassOn = not BypassOn
@@ -177,6 +289,7 @@ BypassToggle.MouseButton1Click:Connect(function()
 	if BypassOn then
 		BypassToggle.BackgroundColor3 = Color3.fromRGB(0,120,255)
 		BypassKnob:TweenPosition(UDim2.new(0,26,0.5,-9),"Out","Quad",0.15,true)
+		ShowNotification()
 	else
 		BypassToggle.BackgroundColor3 = Color3.fromRGB(0,0,0)
 		BypassKnob:TweenPosition(UDim2.new(0,4,0.5,-9),"Out","Quad",0.15,true)
