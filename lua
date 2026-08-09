@@ -33,7 +33,7 @@ Title.BackgroundTransparency = 1
 Title.Text = "🐾 X10 Lucky Script ✨"
 Title.TextColor3 = Color3.fromRGB(255,255,255)
 Title.Font = Enum.Font.GothamBold
-Title.TextSize = 16
+Title.TextSize = 20
 Title.Parent = TitleBar
 
 -------------------------------------------------
